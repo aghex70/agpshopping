@@ -17,41 +17,38 @@ class NewCustomerTest(unittest.TestCase):
 
         # She notices that she is on her index page
         self.assertIn('Personal index', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text()
+        header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Please select your interests', header_text)
 
         # She is required to fill in her interests
-        cryptocurrency_checkbox = self.browser.find_element_by_id('id_cryptocurrency')
+        cryptocurrency_checkbox = self.browser.find_element_by_id('id_cryptocurrencies')
         book_checkbox = self.browser.find_element_by_id('id_books')
 
         # She checks "cryptocurrencies"
         cryptocurrency_checkbox.click()
-        self.assertIs(cryptocurrency_checkbox.get_attribute('checked'), True)
+        self.assertIs(cryptocurrency_checkbox.is_selected(), True)
 
         # She also checks "books"
         book_checkbox.click()
-        self.assertIs(book_checkbox.get_attribute('checked'), True)
+        self.assertIs(book_checkbox.is_selected(), True)
 
         # When she confirms her interests, the page updates, and now the page shows
         # her interests like a list : "Cryptocurrencies", "Books"
         time.sleep(1)
-        current_interests_list = self.browser.find_element_by_tag_name('ul').text()
+        current_interests_list = self.browser.find_element_by_tag_name('ul').text
         self.assertIn('Currently selected interests', current_interests_list)
         interests = current_interests_list.find_elements_by_tag_name('li')
 
         self.assertTrue(
-            any(row.text == 'Cryptocurrencies' for interest in interests))
+            any(row.text == 'Cryptocurrencies' for interest in interests),
+            'Cryptocurrencies is not in the interests list')
 
         self.assertTrue(
-            any(row.text == 'Books' for interest in interests))
+            any(row.text == 'Books' for interest in interests),
+            'Books is not in the interests list')
 
         self.fail('Test has finished')
 
-
-
-
-
-        self.fail('Finishing the test')
 
 if __name__ == '__main__':
     unittest.main(warnings=None)
