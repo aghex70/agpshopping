@@ -34,18 +34,19 @@ class NewCustomerTest(unittest.TestCase):
 
         # When she confirms her interests, the page updates, and now the page shows
         # her interests like a list : "Cryptocurrencies", "Books"
-        time.sleep(1)
+        submit_form_button = self.browser.find_element_by_xpath('/html/body/form/input[4]')
+        submit_form_button.click()
+        time.sleep(2)
+
         current_interests_list = self.browser.find_element_by_tag_name('ul').text
         self.assertIn('Currently selected interests', current_interests_list)
         interests = current_interests_list.find_elements_by_tag_name('li')
 
-        self.assertTrue(
-            any(row.text == 'Cryptocurrencies' for interest in interests),
-            'Cryptocurrencies is not in the interests list')
+        self.assertIn('Cryptocurrencies', [interest.text for interest in interests],
+            f"Cryptocurrencies is not in the interests lists.\n Interests list is: {interest.text}")
 
-        self.assertTrue(
-            any(row.text == 'Books' for interest in interests),
-            'Books is not in the interests list')
+        self.assertIn('Books', [interest.text for interest in interests],
+            f"Books is not in the interests lists.\n Interests list is: {interest.text}")
 
         self.fail('Test has finished')
 
