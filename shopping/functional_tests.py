@@ -11,6 +11,14 @@ class NewCustomerTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_element_in_interests_list(self, element, list):
+        current_interests_list = self.browser.find_element_by_tag_name('ul').text
+        interests = current_interests_list.find_elements_by_tag_name('li')
+        self.assertIn(element, [interest.text for interest in interests],
+            f"{element} is not in the interests lists.\n Interests list is: {confirmed_interests}")
+
+
+
     def test_can_start_to_fill_her_interests(self):
         # She goes to check out this new app she heard by going to its homepage
         self.browser.get('http://localhost:8000')
@@ -36,17 +44,10 @@ class NewCustomerTest(unittest.TestCase):
         # her interests like a list : "Cryptocurrencies", "Books"
         submit_form_button = self.browser.find_element_by_xpath('/html/body/form/input[4]')
         submit_form_button.click()
-        time.sleep(2)
+        time.sleep(10)
 
-        current_interests_list = self.browser.find_element_by_tag_name('ul').text
-        self.assertIn('Currently selected interests', current_interests_list)
-        interests = current_interests_list.find_elements_by_tag_name('li')
-
-        self.assertIn('Cryptocurrencies', [interest.text for interest in interests],
-            f"Cryptocurrencies is not in the interests lists.\n Interests list is: {interest.text}")
-
-        self.assertIn('Books', [interest.text for interest in interests],
-            f"Books is not in the interests lists.\n Interests list is: {interest.text}")
+        self.check_for_element_in_interests_list('Cryptocurrencies')
+        self.check_for_element_in_interests_list('Books')
 
         self.fail('Test has finished')
 
