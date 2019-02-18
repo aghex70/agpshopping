@@ -20,4 +20,5 @@ from interests import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^$', views.home_page, name='home'),
+    re_path(r'^user/(?P<id_user>[0-9]+/interests)', views.list_user_interests, name='list_user_interests'),
 ]

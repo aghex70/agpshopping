@@ -4,7 +4,15 @@
 </head>
 <body>
   <h1>Please select your interests</h1>
-  <input type="checkbox" id="id_cryptocurrencies"/>
-  <input type="checkbox" id="id_books"/>
+  <form method="POST">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <!-- <input name="reading" type="checkbox" id="id_reading" /> Reading
+    <input name="investing" type="checkbox" id="id_investing" /> Investing
+    <input name="traveling" type="checkbox" id="id_traveling" /> Traveling <br><br> -->
+    <input type="submit" value="Submit">
+  </form>
 </body>
 </html>
