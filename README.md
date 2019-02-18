@@ -1,0 +1,1 @@
+Upon filtering from a range of categories, the app will display related products.
