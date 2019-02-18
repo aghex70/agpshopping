@@ -1,12 +1,19 @@
+from django.test import LiveServerTestCase
+
+from interests.models import Customer, Category
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
 
-class NewCustomerTest(unittest.TestCase):
+class NewCustomerTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome()
+        Customer.objects.get_or_create(name="John", surname="Doe")
+        reading_interest, _ = Category.objects.get_or_create(name="reading")
+        investing_interest, _ = Category.objects.get_or_create(name="investing")
+        traveling_interest, _ = Category.objects.get_or_create(name="traveling")
 
     def tearDown(self):
         self.browser.quit()
@@ -21,7 +28,8 @@ class NewCustomerTest(unittest.TestCase):
 
     def test_can_start_to_fill_her_interests(self):
         # She goes to check out this new app she heard by going to its homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
+        time.sleep(10)
 
         # She notices that she is on her index page
         self.assertIn('Personal index', self.browser.title)
@@ -50,7 +58,3 @@ class NewCustomerTest(unittest.TestCase):
         # self.check_for_element_in_interests_list('traveling')
 
         self.fail('Test has finished')
-
-
-if __name__ == '__main__':
-    unittest.main(warnings=None)
