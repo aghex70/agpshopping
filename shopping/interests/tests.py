@@ -24,27 +24,19 @@ class HomePageTest(TestCase):
     #     self.assertTrue(form.is_valid())
 
     def test_can_save_a_POST_request(self):
-        # Customer creation in order to fill interests
-        Customer.objects.get_or_create(name="Alberto", surname="Garcia")
+        Customer.objects.get_or_create(name="John", surname="Doe")
+        reading_interest, _ = Category.objects.get_or_create(name="reading")
+        investing_interest, _ = Category.objects.get_or_create(name="investing")
+        traveling_interest, _ = Category.objects.get_or_create(name="traveling")
 
-        post_data = {'reading': False,
-            'investing': True,
-            'traveling': True}
-
-
-        form = InterestsForm(data=post_data)
+        post_data = {'personal_interests': [str(investing_interest.id),
+         str(traveling_interest.id)]}
 
         response = self.client.post('/',
-        post_data)
-
-        print(response.content)
+        data=post_data)
 
         new_customer = Customer.objects.first()
-
         customer_interests = [category.name for category in new_customer.interests.all()]
-        for i in customer_interests:
-            print(i)
-        print("FIN")
 
         self.assertNotIn('reading', customer_interests)
         self.assertIn('traveling', customer_interests)
