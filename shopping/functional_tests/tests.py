@@ -29,25 +29,25 @@ class NewCustomerTest(unittest.TestCase):
         self.assertIn('Please select your interests', header_text)
 
         # She is required to fill in her interests
-        cryptocurrency_checkbox = self.browser.find_element_by_id('id_cryptocurrencies')
-        book_checkbox = self.browser.find_element_by_id('id_books')
+        investing_checkbox = self.browser.find_element_by_id('id_personal_interests_0')
+        traveling_checkbox = self.browser.find_element_by_id('id_personal_interests_2')
 
-        # She checks "cryptocurrencies"
-        cryptocurrency_checkbox.click()
-        self.assertIs(cryptocurrency_checkbox.is_selected(), True)
+        # She checks "investing"
+        investing_checkbox.click()
+        self.assertIs(investing_checkbox.is_selected(), True)
 
-        # She also checks "books"
-        book_checkbox.click()
-        self.assertIs(book_checkbox.is_selected(), True)
+        # She also checks "traveling"
+        traveling_checkbox.click()
+        self.assertIs(traveling_checkbox.is_selected(), True)
+        # time.sleep(10)
 
         # When she confirms her interests, the page updates, and now the page shows
         # her interests like a list : "Cryptocurrencies", "Books"
-        submit_form_button = self.browser.find_element_by_xpath('/html/body/form/input[4]')
+        submit_form_button = self.browser.find_element_by_xpath('/html/body/form/input[2]')
         submit_form_button.click()
-        time.sleep(10)
 
-        self.check_for_element_in_interests_list('Cryptocurrencies')
-        self.check_for_element_in_interests_list('Books')
+        # self.check_for_element_in_interests_list('reading')
+        # self.check_for_element_in_interests_list('traveling')
 
         self.fail('Test has finished')
 
