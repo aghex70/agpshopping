@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from interests import views
+from interests.views import InterestListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^$', views.home_page, name='home'),
-    re_path(r'^user/(?P<id_user>[0-9]+/interests)', views.list_user_interests, name='list_user_interests'),
+    re_path(r'^user_cbv/(?P<id_user>[0-9]+)/interests/', InterestListView.as_view(), name='user_interests_list_cbv'),
+    re_path(r'^user/(?P<id_user>[0-9]+)/interests/', views.user_interests_list, name='user_interests_list'),
 ]
