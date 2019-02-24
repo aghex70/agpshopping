@@ -62,3 +62,10 @@ class HomePageTest(TestCase):
         self.assertRedirects(response, '/user/'+str(default_client.id)+'/interests/')
         # self.assertEqual(response.status_code, 302)
         # self.assertEqual(response.url, '/user/'+str(default_client.id)+'/interests')
+
+class ListViewTest(TestCase):
+    def test_uses_list_template(self):
+        new_customer, _ = Customer.objects.get_or_create(name="John", surname="Doe")
+        another_new_customer, _ = Customer.objects.get_or_create(name="Jane", surname="Doe")
+        response = self.client.get(f'/user/{another_new_customer.id}/interests/')
+        self.assertTemplateUsed(response, 'user_interests_list.html')
