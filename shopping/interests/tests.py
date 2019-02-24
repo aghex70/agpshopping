@@ -29,18 +29,30 @@ class HomePageTest(TestCase):
         investing_interest, _ = Category.objects.get_or_create(name="investing")
         traveling_interest, _ = Category.objects.get_or_create(name="traveling")
 
-        post_data = {'personal_interests': [str(investing_interest.id),
+        user_selected_interests = {'personal_interests': [str(investing_interest.id),
          str(traveling_interest.id)]}
-
         response = self.client.post('/',
-        data=post_data)
+        data=user_selected_interests)
 
-        new_customer = Customer.objects.first()
+        new_customer = Customer.objects.get(name="John", surname="Doe")
         customer_interests = [category.name for category in new_customer.interests.all()]
 
         self.assertNotIn('reading', customer_interests)
         self.assertIn('traveling', customer_interests)
         self.assertIn('investing', customer_interests)
+
+    def test_can_save_an_empty_POST_request(self):
+        Customer.objects.get_or_create(name="John", surname="Doe")
+
+        user_selected_interests = {}
+        response = self.client.post('/', data=user_selected_interests)
+
+        new_customer = Customer.objects.get(name="John", surname="Doe")
+        customer_interests = [category.name for category in new_customer.interests.all()]
+
+        self.assertNotIn('reading', customer_interests)
+        self.assertNotIn('traveling', customer_interests)
+        self.assertNotIn('investing', customer_interests)
 
     # def test_redirects_after_POST(self):
     #     # Customer creation in order to fill interests
