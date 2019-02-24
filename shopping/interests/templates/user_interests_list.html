@@ -1,0 +1,17 @@
+<html>
+<head>
+  <title>User specific interests</title>
+</head>
+<body>
+  <h1>{{customer.name}}'s interests</h1>
+  {% if user_interests %}
+  <ol>
+    {% for interest in user_interests %}
+     <li>{{interest}}</li>
+    {% endfor %}
+  </ol>
+  {% else %}
+    <h2>There aren't any interests selected yet for this user.</h2>
+  {% endif %}
+</body>
+</html>
