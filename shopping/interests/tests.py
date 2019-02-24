@@ -54,14 +54,11 @@ class HomePageTest(TestCase):
         self.assertNotIn('traveling', customer_interests)
         self.assertNotIn('investing', customer_interests)
 
-    # def test_redirects_after_POST(self):
-    #     # Customer creation in order to fill interests
-    #     default_client, _ = Customer.objects.get_or_create(name="Alberto", surname="Garcia")
-    #
-    #     response = self.client.post('/',
-    #         {'reading': False,
-    #         'investing': True,
-    #         'traveling': True})
-    #
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertEqual(response.url, '/user/'+str(default_client.id)+'/interests')
+    def test_redirects_after_POST(self):
+        default_client, _ = Customer.objects.get_or_create(name="John", surname="Doe")
+
+        response = self.client.post('/', {})
+
+        self.assertRedirects(response, '/user/'+str(default_client.id)+'/interests/')
+        # self.assertEqual(response.status_code, 302)
+        # self.assertEqual(response.url, '/user/'+str(default_client.id)+'/interests')

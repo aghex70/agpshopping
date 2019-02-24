@@ -27,7 +27,7 @@ def home_page(request):
                     filtered_interest, _ = Category.objects.get_or_create(name=interest)
                     default_customer.interests.add(filtered_interest)
             default_customer.save()
-            return redirect('/user/'+str(default_customer.id)+'/interests')
+            return redirect('/user/'+str(default_customer.id)+'/interests/')
         else:
             messages.error(request, "An error has occured. Check all the fields.")
             return redirect('/')
