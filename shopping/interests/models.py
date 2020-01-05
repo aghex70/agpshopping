@@ -19,11 +19,11 @@ class City(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    price = models.PositiveIntegerField(help_text='in euros')
+    price = models.FloatField(help_text='in dollars')
     category = models.ManyToManyField(Category)
 
     def __str__(self):
-        return self.name
+        return f"{self.category.name}: {self.name}"
 
 
 class Book(Product):
@@ -39,13 +39,21 @@ class EBook(Product):
 
 
 class Cryptocurrency(Product):
-    release_date = models.DateField()
-    volume = models.PositiveIntegerField()
-    historical_maximum = models.PositiveIntegerField()
-    historical_minimum = models.PositiveIntegerField()
-    weekly_price =  models.PositiveIntegerField()
-    monthly_price = models.PositiveIntegerField()
-    # graph  =
+    release_date = models.DateField(null=True)
+    volume = models.FloatField(null=True)
+    historical_maximum = models.PositiveIntegerField(null=True)
+    historical_minimum = models.PositiveIntegerField(null=True)
+    weekly_price =  models.PositiveIntegerField(null=True)
+    monthly_price = models.PositiveIntegerField(null=True)
+    market_cap = models.FloatField(default=0)
+    circulating_supply = models.FloatField(default=0)
+    daily_change = models.FloatField(default=0)
+    tracked = models.BooleanField(default=False)
+    dominance = models.PositiveIntegerField(null=True)
+    graph = models.ImageField(null=True) 
+
+    def __str__(self):
+        return f"hola {self.category.name}: {self.name}"
 
 
 class Flight(Product):
